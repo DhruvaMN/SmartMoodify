@@ -1,19 +1,31 @@
-import axios from "axios";
-import { useEffect } from "react";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { CustomThemeProvider } from './theme/ThemeContext';
+import Navigation from './components/Navigation';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import About from './pages/About';
+import Settings from './pages/Settings';
+import NotFound from './pages/NotFound';
 
-export default function App(){
-  useEffect(()=>{
-    axios.get("http://localhost:3050/api/test-endpoint")
-    .then((res)=>{
-      console.log(res.data)
-    })
-    .catch((err)=>{
-      console.log(err)
-    })
-  },[])
-  return(
-    <div>
-      <h1>hello world</h1>
-    </div>
-  )
+export default function App() {
+  return (
+    <CustomThemeProvider>
+      <Router>
+        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100vw' }}>
+          <Navigation />
+          <Box component="main" sx={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </Box>
+        </Box>
+      </Router>
+    </CustomThemeProvider>
+  );
 }
