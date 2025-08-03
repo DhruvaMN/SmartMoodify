@@ -1,15 +1,32 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Container, Typography, Box, TextField, Button } from '@mui/material';
 import { Dashboard as DashboardIcon } from '@mui/icons-material';
 
 const Dashboard = () => {
   const [ingredientInput, setIngredientInput] = useState('');
   const [ingredients, setIngredients] = useState([]);
+  const [moodText, setMoodText] = useState('');
 
   const handleAddIngredient = () => {
     if (ingredientInput.trim()) {
       setIngredients([...ingredients, ingredientInput.trim()]);
       setIngredientInput('');
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3050/api/recommendations',
+        {
+          moodText,
+          ingredients,
+        }
+      );
+      console.log(response.data); // Replace this with state update or navigation later
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
     }
   };
 
@@ -32,6 +49,8 @@ const Dashboard = () => {
           variant='outlined'
           fullWidth
           margin='normal'
+          value={moodText}
+          onChange={(e) => setMoodText(e.target.value)}
         />
       </Box>
 
@@ -60,7 +79,12 @@ const Dashboard = () => {
       </Box>
 
       <Box sx={{ mt: 4, textAlign: 'center' }}>
-        <Button variant='contained' color='primary' size='large'>
+        <Button
+          variant='contained'
+          color='primary'
+          size='large'
+          onClick={handleSubmit}
+        >
           Get My Recommendations
         </Button>
       </Box>
