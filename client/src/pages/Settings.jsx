@@ -16,17 +16,12 @@ import {
 } from '@mui/material';
 import { Settings as SettingsIcon } from '@mui/icons-material';
 import { useThemeMode } from '../theme/ThemeContext';
+import { usePreference } from '../components/PreferenceContext';
 
 const Settings = () => {
   const { mode, toggleTheme } = useThemeMode();
 
-  const [dietaryPrefs, setDietaryPrefs] = React.useState({
-    vegetarian: false,
-    vegan: false,
-    glutenFree: false,
-  });
-  const [cuisines, setCuisines] = React.useState([]);
-  const [musicGenres, setMusicGenres] = React.useState([]);
+  const {musicGenres, setMusicGenres, cuisines, setCuisines, dietaryPrefs, setDietaryPrefs} = usePreference()
   const [useSpeech, setUseSpeech] = React.useState(false);
   const [autoMood, setAutoMood] = React.useState(true);
 

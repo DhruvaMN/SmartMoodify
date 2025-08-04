@@ -6,13 +6,15 @@ const {
 } = require('../utils/apiHelpers');
 
 exports.getRecommendations = async (req, res) => {
-  const { moodText, ingredients } = req.body;
+  const { moodText, ingredients, dietaryPreference, cusinePreference, cuisinePreference, musicGenres } = req.body;
 
   try {
     const mood = await getEmotion(moodText);
-    const recipes = await getRecipes(ingredients);
+    // Use cuisinePreference if available, fallback to cusinePreference for backward compatibility
+    const cuisine = cuisinePreference || cusinePreference;
+    const recipes = await getRecipes(ingredients, dietaryPreference, cuisine);
     const rankedRecipes = await classifyRecipes(recipes, mood);
-    const music = await getMusic(mood);
+    const music = await getMusic(mood, musicGenres);
 
     res.json({ mood, recipes: rankedRecipes, music });
   } catch (err) {

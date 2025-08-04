@@ -46,7 +46,7 @@ async function getEmotion(text) {
 }
 
 // 3. Get recipes from Spoonacular
-async function getRecipes(ingredients) {
+async function getRecipes(ingredients, dietaryPreference, cuisinePreference) {
   const response = await axios.get(
     'https://api.spoonacular.com/recipes/complexSearch',
     {
@@ -54,7 +54,9 @@ async function getRecipes(ingredients) {
         includeIngredients: ingredients.join(','),
         instructionsRequired: true,
         addRecipeInformation: true,
-        number: 10,
+        number: 5,
+        diet: dietaryPreference || '',
+        cuisine: cuisinePreference || '',
         apiKey: process.env.SPOONACULAR_API_KEY,
       },
     }
@@ -103,7 +105,7 @@ async function classifyRecipes(recipes, moodLabel) {
 }
 
 // 5. Get music tracks from Spotify
-async function getMusic(mood) {
+async function getMusic(mood, preferredGenres = []) {
   const tokenRes = await axios.post(
     'https://accounts.spotify.com/api/token',
     new URLSearchParams({ grant_type: 'client_credentials' }),
@@ -132,7 +134,25 @@ async function getMusic(mood) {
     novel: 'electronic',
   };
 
-  const searchTerm = keywordMap[mood] || 'ambient';
+  // Use preferred genres if available, otherwise fall back to mood-based search
+  let searchTerm;
+  if (preferredGenres && preferredGenres.length > 0) {
+    // Convert UI genre names to Spotify search terms
+    const genreMap = {
+      'Lo-fi': 'lofi',
+      'Jazz': 'jazz',
+      'EDM': 'electronic dance music',
+      'Acoustic': 'acoustic',
+      'Classical': 'classical',
+      'Pop': 'pop',
+      'Rock': 'rock'
+    };
+    // Use the first preferred genre, or the genre name as-is if not in map
+    const preferredGenre = preferredGenres[0];
+    searchTerm = genreMap[preferredGenre] || preferredGenre.toLowerCase();
+  } else {
+    searchTerm = keywordMap[mood] || 'ambient';
+  }
 
   const musicRes = await axios.get('https://api.spotify.com/v1/search', {
     headers: {
