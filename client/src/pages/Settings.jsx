@@ -13,181 +13,429 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Paper,
+  Divider,
+  Chip,
 } from '@mui/material';
-import { Settings as SettingsIcon } from '@mui/icons-material';
+import {
+  Settings as SettingsIcon,
+  Palette as PaletteIcon,
+  MusicNote as MusicIcon,
+  Restaurant as RestaurantIcon,
+  LocalDining as DiningIcon,
+  Brightness4 as DarkIcon,
+  Brightness7 as LightIcon,
+} from '@mui/icons-material';
 import { useThemeMode } from '../theme/ThemeContext';
 import { usePreference } from '../components/PreferenceContext';
+import {
+  AnimatedBox,
+  AnimatedCard,
+  FloatingIcon,
+  StaggeredList,
+  StaggeredListItem,
+  PulseButton,
+} from '../components/MotionComponents';
 
 const Settings = () => {
   const { mode, toggleTheme } = useThemeMode();
-
-  const {musicGenres, setMusicGenres, cuisines, setCuisines, dietaryPrefs, setDietaryPrefs} = usePreference()
+  const {
+    musicGenres,
+    setMusicGenres,
+    cuisines,
+    setCuisines,
+    dietaryPrefs,
+    setDietaryPrefs,
+  } = usePreference();
   const [useSpeech, setUseSpeech] = React.useState(false);
   const [autoMood, setAutoMood] = React.useState(true);
 
+  const musicGenreOptions = [
+    'Pop',
+    'Rock',
+    'Hip Hop',
+    'Jazz',
+    'Classical',
+    'Electronic',
+    'Country',
+    'R&B',
+    'Blues',
+    'Folk',
+  ];
+
+  const cuisineOptions = [
+    'Italian',
+    'Mexican',
+    'Chinese',
+    'Indian',
+    'Japanese',
+    'Thai',
+    'French',
+    'Mediterranean',
+    'American',
+    'Greek',
+  ];
+
   return (
-    <Container maxWidth='md' sx={{ py: 4 }}>
-      <Box sx={{ mb: 4 }}>
-        <Typography variant='h3' component='h1' gutterBottom>
-          <SettingsIcon sx={{ mr: 2, verticalAlign: 'middle' }} />
-          Settings
-        </Typography>
-        <Typography variant='h6' color='text.secondary'>
-          Customize your SmartMoodify experience
-        </Typography>
+    <Container maxWidth='md' sx={{ py: 6 }}>
+      <AnimatedBox>
+        <Box sx={{ mb: 6, textAlign: 'center' }}>
+          <FloatingIcon>
+            <SettingsIcon sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
+          </FloatingIcon>
+          <Typography
+            variant='h2'
+            component='h1'
+            gutterBottom
+            sx={{
+              fontWeight: 700,
+              color: 'primary.main',
+              textShadow: (theme) => 
+                theme.palette.mode === 'light' 
+                  ? '0 2px 4px rgba(0,0,0,0.1)' 
+                  : '0 2px 4px rgba(255,255,255,0.1)',
+            }}
+          >
+            Settings
+          </Typography>
+          <Typography
+            variant='h6'
+            color='text.secondary'
+            sx={{ maxWidth: 600, mx: 'auto' }}
+          >
+            Customize your SmartMoodify experience
+          </Typography>
+        </Box>
+      </AnimatedBox>
+
+      <Box sx={{ maxWidth: 800, mx: 'auto' }}>
+        <StaggeredList>
+          <Box sx={{ mb: 3 }}>
+            <AnimatedCard delay={0}>
+              <Paper sx={{ p: 5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                <PaletteIcon
+                  sx={{ mr: 2, color: 'primary.main', fontSize: 32 }}
+                />
+                <Typography
+                  variant='h4'
+                  component='h2'
+                  sx={{ fontWeight: 600 }}
+                >
+                  Appearance
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  p: 3,
+                  bgcolor: 'background.paper',
+                  borderRadius: 2,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  {mode === 'light' ? (
+                    <LightIcon sx={{ mr: 2, color: 'warning.main' }} />
+                  ) : (
+                    <DarkIcon sx={{ mr: 2, color: 'primary.main' }} />
+                  )}
+                  <Box>
+                    <Typography variant='h6' sx={{ fontWeight: 600 }}>
+                      {mode === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                      {mode === 'dark'
+                        ? 'Currently using dark theme'
+                        : 'Currently using light theme'}
+                    </Typography>
+                  </Box>
+                </Box>
+                <PulseButton>
+                  <Switch
+                    checked={mode === 'dark'}
+                    onChange={toggleTheme}
+                    color='primary'
+                    size='large'
+                  />
+                </PulseButton>
+              </Box>
+              </Paper>
+            </AnimatedCard>
+          </Box>
+
+          <Box sx={{ mb: 3 }}>
+            <AnimatedCard delay={1}>
+              <Paper sx={{ p: 5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                <DiningIcon
+                  sx={{ mr: 2, color: 'secondary.main', fontSize: 32 }}
+                />
+                <Typography
+                  variant='h4'
+                  component='h2'
+                  sx={{ fontWeight: 600 }}
+                >
+                  Dietary Preferences
+                </Typography>
+              </Box>
+              <FormGroup
+                sx={{
+                  display: 'grid',
+                  gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr' },
+                  gap: 2,
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={dietaryPrefs.vegetarian}
+                      onChange={(e) =>
+                        setDietaryPrefs({
+                          ...dietaryPrefs,
+                          vegetarian: e.target.checked,
+                        })
+                      }
+                      color='primary'
+                    />
+                  }
+                  label={
+                    <Box>
+                      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                        Vegetarian
+                      </Typography>
+                      <Typography variant='caption' color='text.secondary'>
+                        Plant-based meals only
+                      </Typography>
+                    </Box>
+                  }
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={dietaryPrefs.vegan}
+                      onChange={(e) =>
+                        setDietaryPrefs({
+                          ...dietaryPrefs,
+                          vegan: e.target.checked,
+                        })
+                      }
+                      color='primary'
+                    />
+                  }
+                  label={
+                    <Box>
+                      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                        Vegan
+                      </Typography>
+                      <Typography variant='caption' color='text.secondary'>
+                        No animal products
+                      </Typography>
+                    </Box>
+                  }
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={dietaryPrefs.glutenFree}
+                      onChange={(e) =>
+                        setDietaryPrefs({
+                          ...dietaryPrefs,
+                          glutenFree: e.target.checked,
+                        })
+                      }
+                      color='primary'
+                    />
+                  }
+                  label={
+                    <Box>
+                      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                        Gluten Free
+                      </Typography>
+                      <Typography variant='caption' color='text.secondary'>
+                        No gluten ingredients
+                      </Typography>
+                    </Box>
+                  }
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={dietaryPrefs.dairyFree}
+                      onChange={(e) =>
+                        setDietaryPrefs({
+                          ...dietaryPrefs,
+                          dairyFree: e.target.checked,
+                        })
+                      }
+                      color='primary'
+                    />
+                  }
+                  label={
+                    <Box>
+                      <Typography variant='body1' sx={{ fontWeight: 600 }}>
+                        Dairy Free
+                      </Typography>
+                      <Typography variant='caption' color='text.secondary'>
+                        No dairy products
+                      </Typography>
+                    </Box>
+                  }
+                />
+              </FormGroup>
+                </Paper>
+              </AnimatedCard>
+            </Box>
+
+            <Box sx={{ mb: 3 }}>
+              <AnimatedCard delay={2}>
+              <Paper sx={{ p: 5}}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                  <RestaurantIcon
+                  sx={{ mr: 2, color: 'info.main', fontSize: 32 }}
+                />
+                <Typography
+                  variant='h4'
+                  component='h2'
+                  sx={{ fontWeight: 600 }}
+                >
+                  Cuisine Preferences
+                </Typography>
+              </Box>
+              <FormControl fullWidth sx={{ mb: 3 }}>
+                <InputLabel>Cuisine Types</InputLabel>
+                <Select
+                  multiple
+                  value={cuisines}
+                  onChange={(e) => setCuisines(e.target.value)}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          size='small'
+                          color='primary'
+                        />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: { maxHeight: 300 },
+                    },
+                  }}
+                >
+                  {cuisineOptions.map((cuisine) => (
+                    <MenuItem key={cuisine} value={cuisine}>
+                      {cuisine}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant='body2' color='text.secondary'>
+                Select your preferred cuisine types for recipe recommendations
+              </Typography>
+                </Paper>
+              </AnimatedCard>
+            </Box>
+
+            <Box sx={{ mb: 3 }}>
+              <AnimatedCard delay={3}>
+              <Paper sx={{ p: 5 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                <MusicIcon
+                  sx={{ mr: 2, color: 'success.main', fontSize: 32 }}
+                />
+                <Typography
+                  variant='h4'
+                  component='h2'
+                  sx={{ fontWeight: 600 }}
+                >
+                  Music Preferences
+                </Typography>
+              </Box>
+              <FormControl fullWidth sx={{ mb: 3 }}>
+                <InputLabel>Music Genres</InputLabel>
+                <Select
+                  multiple
+                  value={musicGenres}
+                  onChange={(e) => setMusicGenres(e.target.value)}
+                  renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          size='small'
+                          color='secondary'
+                        />
+                      ))}
+                    </Box>
+                  )}
+                  MenuProps={{
+                    PaperProps: {
+                      sx: { maxHeight: 300 },
+                    },
+                  }}
+                >
+                  {musicGenreOptions.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Typography variant='body2' color='text.secondary'>
+                Choose your favorite music genres for personalized
+                recommendations
+              </Typography>
+              </Paper>
+            </AnimatedCard>
+          </Box>
+
+          <Box sx={{ mb: 3 }}>
+            <AnimatedCard delay={4}>
+              <Paper sx={{ p: 5 }}>
+              <Typography
+                variant='h4'
+                component='h2'
+                sx={{ fontWeight: 600, mb: 4 }}
+              >
+                Advanced Settings
+              </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    p: 3,
+                    bgcolor: 'background.paper',
+                    borderRadius: 2,
+                  }}
+                >
+                  <Box>
+                    <Typography variant='h6' sx={{ fontWeight: 600 }}>
+                      Auto Mood Detection
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                      Automatically detect mood from your input
+                    </Typography>
+                  </Box>
+                  <Switch
+                    checked={autoMood}
+                    onChange={(e) => setAutoMood(e.target.checked)}
+                    color='primary'
+                  />
+                </Box>
+              </Box>
+              </Paper>
+            </AnimatedCard>
+          </Box>
+        </StaggeredList>
       </Box>
-
-      <Card>
-        <CardContent>
-          <Typography variant='h5' gutterBottom>
-            Appearance
-          </Typography>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={mode === 'dark'}
-                onChange={toggleTheme}
-                color='primary'
-              />
-            }
-            label={`Dark Mode ${mode === 'dark' ? '(On)' : '(Off)'}`}
-          />
-          <Typography variant='body2' color='text.secondary' sx={{ mt: 1 }}>
-            Toggle between light and dark themes
-          </Typography>
-        </CardContent>
-      </Card>
-
-      <Card sx={{ mt: 4 }}>
-        <CardContent>
-          <Typography variant='h5' gutterBottom>
-            Preferences
-          </Typography>
-
-          <Box sx={{ mt: 2 }}>
-            <Typography variant='subtitle1'>Dietary Preferences</Typography>
-            <FormGroup row>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={dietaryPrefs.vegetarian}
-                    onChange={(e) =>
-                      setDietaryPrefs({
-                        ...dietaryPrefs,
-                        vegetarian: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label='Vegetarian'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={dietaryPrefs.vegan}
-                    onChange={(e) =>
-                      setDietaryPrefs({
-                        ...dietaryPrefs,
-                        vegan: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label='Vegan'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={dietaryPrefs.glutenFree}
-                    onChange={(e) =>
-                      setDietaryPrefs({
-                        ...dietaryPrefs,
-                        glutenFree: e.target.checked,
-                      })
-                    }
-                  />
-                }
-                label='Gluten-Free'
-              />
-            </FormGroup>
-          </Box>
-
-          <Box sx={{ mt: 3 }}>
-            <FormControl fullWidth>
-              <InputLabel>Favorite Cuisines</InputLabel>
-              <Select
-                multiple
-                value={cuisines}
-                onChange={(e) => setCuisines(e.target.value)}
-                label='Favorite Cuisines'
-              >
-                {[
-                  'Indian',
-                  'Italian',
-                  'Mexican',
-                  'Chinese',
-                  'Thai',
-                  'Mediterranean',
-                ].map((cuisine) => (
-                  <MenuItem key={cuisine} value={cuisine}>
-                    {cuisine}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-
-          <Box sx={{ mt: 3 }}>
-            <FormControl fullWidth>
-              <InputLabel>Preferred Music Genres</InputLabel>
-              <Select
-                multiple
-                value={musicGenres}
-                onChange={(e) => setMusicGenres(e.target.value)}
-                label='Preferred Music Genres'
-              >
-                {[
-                  'Lo-fi',
-                  'Jazz',
-                  'EDM',
-                  'Acoustic',
-                  'Classical',
-                  'Pop',
-                  'Rock',
-                ].map((genre) => (
-                  <MenuItem key={genre} value={genre}>
-                    {genre}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Box>
-
-          <Box sx={{ mt: 3 }}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={useSpeech}
-                  onChange={(e) => setUseSpeech(e.target.checked)}
-                />
-              }
-              label={`Speech Input ${useSpeech ? '(On)' : '(Off)'}`}
-            />
-          </Box>
-
-          <Box>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={autoMood}
-                  onChange={(e) => setAutoMood(e.target.checked)}
-                />
-              }
-              label={`Auto Mood Detection ${autoMood ? '(On)' : '(Off)'}`}
-            />
-          </Box>
-        </CardContent>
-      </Card>
     </Container>
   );
 };

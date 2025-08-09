@@ -61,7 +61,7 @@ async function getRecipes(ingredients, dietaryPreference, cuisinePreference) {
       },
     }
   );
-  // console.log('recipes working: ', response.data.results)
+  console.log('recipes working')
   return response.data.results;
 }
 

@@ -11,7 +11,7 @@ exports.getRecommendations = async (req, res) => {
   try {
     const mood = await getEmotion(moodText);
     // Use cuisinePreference if available, fallback to cusinePreference for backward compatibility
-    const cuisine = cuisinePreference || cusinePreference;
+    const cuisine = cusinePreference;
     const recipes = await getRecipes(ingredients, dietaryPreference, cuisine);
     const rankedRecipes = await classifyRecipes(recipes, mood);
     const music = await getMusic(mood, musicGenres);

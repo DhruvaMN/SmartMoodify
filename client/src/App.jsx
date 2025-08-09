@@ -1,6 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import { Box } from '@mui/material';
+import { AnimatePresence, motion } from 'framer-motion';
 import { CustomThemeProvider } from './theme/ThemeContext';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
@@ -13,15 +19,23 @@ export default function App() {
   return (
     <CustomThemeProvider>
       <Router>
-        <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', width: '100vw' }}>
+        <Box
+          sx={{
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100vw',
+            bgcolor: 'background.default',
+          }}
+        >
           <Navigation />
-          <Box component="main" sx={{ flexGrow: 1 }}>
+          <Box component='main' sx={{ flexGrow: 1 }}>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/settings" element={<Settings />} />
-              <Route path="*" element={<NotFound />} />
+              <Route path='/' element={<Home />} />
+              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='/about' element={<About />} />
+              <Route path='/settings' element={<Settings />} />
+              <Route path='*' element={<NotFound />} />
             </Routes>
           </Box>
         </Box>
