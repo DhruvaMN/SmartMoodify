@@ -103,7 +103,7 @@ const Settings = () => {
             color='text.secondary'
             sx={{ maxWidth: 600, mx: 'auto' }}
           >
-            Customize your SmartMoodify experience
+            Customize your MoodPlate experience
           </Typography>
         </Box>
       </AnimatedBox>
@@ -304,11 +304,24 @@ const Settings = () => {
                 </Typography>
               </Box>
               <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Cuisine Types</InputLabel>
+                <InputLabel 
+                  sx={{ 
+                    backgroundColor: 'background.paper',
+                    px: 1,
+                    zIndex: 1
+                  }}
+                >
+                  Cuisine Types
+                </InputLabel>
                 <Select
                   multiple
                   value={cuisines}
                   onChange={(e) => setCuisines(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      zIndex: 0
+                    }
+                  }}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => (
@@ -357,11 +370,24 @@ const Settings = () => {
                 </Typography>
               </Box>
               <FormControl fullWidth sx={{ mb: 3 }}>
-                <InputLabel>Music Genres</InputLabel>
+                <InputLabel 
+                  sx={{ 
+                    backgroundColor: 'background.paper',
+                    px: 1,
+                    zIndex: 1
+                  }}
+                >
+                  Music Genres
+                </InputLabel>
                 <Select
                   multiple
                   value={musicGenres}
                   onChange={(e) => setMusicGenres(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-notchedOutline': {
+                      zIndex: 0
+                    }
+                  }}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => (
@@ -391,46 +417,6 @@ const Settings = () => {
                 Choose your favorite music genres for personalized
                 recommendations
               </Typography>
-              </Paper>
-            </AnimatedCard>
-          </Box>
-
-          <Box sx={{ mb: 3 }}>
-            <AnimatedCard delay={4}>
-              <Paper sx={{ p: 5 }}>
-              <Typography
-                variant='h4'
-                component='h2'
-                sx={{ fontWeight: 600, mb: 4 }}
-              >
-                Advanced Settings
-              </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    p: 3,
-                    bgcolor: 'background.paper',
-                    borderRadius: 2,
-                  }}
-                >
-                  <Box>
-                    <Typography variant='h6' sx={{ fontWeight: 600 }}>
-                      Auto Mood Detection
-                    </Typography>
-                    <Typography variant='body2' color='text.secondary'>
-                      Automatically detect mood from your input
-                    </Typography>
-                  </Box>
-                  <Switch
-                    checked={autoMood}
-                    onChange={(e) => setAutoMood(e.target.checked)}
-                    color='primary'
-                  />
-                </Box>
-              </Box>
               </Paper>
             </AnimatedCard>
           </Box>

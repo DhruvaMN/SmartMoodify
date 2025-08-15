@@ -70,7 +70,7 @@ const Home = () => {
                   : '0 2px 4px rgba(255,255,255,0.1)',
             }}
           >
-            Welcome to Moodplate
+            Welcome to MoodPlate
           </Typography>
           <Typography
             variant='h5'
@@ -184,7 +184,7 @@ const Home = () => {
                     color='text.secondary'
                     sx={{ lineHeight: 1.8, fontSize: '1.1rem' }}
                   >
-                    SmartMoodify intelligently recommends meals and music based on your
+                    MoodPlate intelligently recommends meals and music based on your
                     current mood and the ingredients you have at home.
                     Just tell it how you're feeling and what ingredients you have,
                     and it'll serve you the perfect vibe for both your plate and

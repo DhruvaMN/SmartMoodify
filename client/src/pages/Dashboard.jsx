@@ -152,32 +152,32 @@ const Dashboard = () => {
 
       <Box sx={{ maxWidth: 800, mx: 'auto' }}>
         <StaggeredList>
-          <Box sx={{ mb:3 }}>
+          <Box sx={{ mb: 3 }}>
             <AnimatedCard delay={0}>
               <Paper sx={{ p: 4 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <EmojiIcon
-                  sx={{ mr: 2, color: 'primary.main', fontSize: 28 }}
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                  <EmojiIcon
+                    sx={{ mr: 2, color: 'primary.main', fontSize: 28 }}
+                  />
+                  <Typography
+                    variant='h5'
+                    component='h2'
+                    sx={{ fontWeight: 600 }}
+                  >
+                    How are you feeling today?
+                  </Typography>
+                </Box>
+                <TextField
+                  label='Describe your mood...'
+                  variant='outlined'
+                  fullWidth
+                  multiline
+                  rows={3}
+                  value={moodText}
+                  onChange={(e) => setMoodText(e.target.value)}
+                  placeholder="I'm feeling happy and energetic today..."
+                  sx={{ mb: 3 }}
                 />
-                <Typography
-                  variant='h5'
-                  component='h2'
-                  sx={{ fontWeight: 600 }}
-                >
-                  How are you feeling today?
-                </Typography>
-              </Box>
-              <TextField
-                label='Describe your mood...'
-                variant='outlined'
-                fullWidth
-                multiline
-                rows={3}
-                value={moodText}
-                onChange={(e) => setMoodText(e.target.value)}
-                placeholder="I'm feeling happy and energetic today..."
-                sx={{ mb: 3 }}
-              />
               </Paper>
             </AnimatedCard>
           </Box>
@@ -185,65 +185,67 @@ const Dashboard = () => {
           <Box sx={{ mb: 6 }}>
             <AnimatedCard delay={1}>
               <Paper sx={{ p: 4 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-                <DiningIcon
-                  sx={{ mr: 2, color: 'secondary.main', fontSize: 28 }}
-                />
-                <Typography
-                  variant='h5'
-                  component='h2'
-                  sx={{ fontWeight: 600 }}
-                >
-                  Available Ingredients
-                </Typography>
-              </Box>
-              <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
-                <TextField
-                  label='Add an ingredient'
-                  variant='outlined'
-                  fullWidth
-                  value={ingredientInput}
-                  onChange={(e) => setIngredientInput(e.target.value)}
-                  placeholder='e.g., chicken, rice, tomatoes...'
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddIngredient()}
-                />
-                <PulseButton>
-                  <Button
-                    variant='contained'
-                    onClick={handleAddIngredient}
-                    startIcon={<AddIcon />}
-                    sx={{ minWidth: 140 }}
-                  >
-                    Add
-                  </Button>
-                </PulseButton>
-              </Box>
-
-              {ingredients.length > 0 && (
-                <Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                  <DiningIcon
+                    sx={{ mr: 2, color: 'secondary.main', fontSize: 28 }}
+                  />
                   <Typography
-                    variant='subtitle1'
-                    sx={{ mb: 2, fontWeight: 600 }}
+                    variant='h5'
+                    component='h2'
+                    sx={{ fontWeight: 600 }}
                   >
-                    Your Ingredients:
+                    Available Ingredients
                   </Typography>
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                    {ingredients.map((item, index) => (
-                      <Chip
-                        key={index}
-                        label={item}
-                        color='primary'
-                        variant='outlined'
-                        onDelete={() =>
-                          setIngredients(
-                            ingredients.filter((_, i) => i !== index)
-                          )
-                        }
-                      />
-                    ))}
-                  </Box>
                 </Box>
-              )}
+                <Box sx={{ display: 'flex', gap: 2, mb: 3 }}>
+                  <TextField
+                    label='Add an ingredient'
+                    variant='outlined'
+                    fullWidth
+                    value={ingredientInput}
+                    onChange={(e) => setIngredientInput(e.target.value)}
+                    placeholder='e.g., chicken, rice, tomatoes...'
+                    onKeyDown={(e) =>
+                      e.key === 'Enter' && handleAddIngredient()
+                    }
+                  />
+                  <PulseButton>
+                    <Button
+                      variant='contained'
+                      onClick={handleAddIngredient}
+                      startIcon={<AddIcon />}
+                      sx={{ minWidth: 140 }}
+                    >
+                      Add
+                    </Button>
+                  </PulseButton>
+                </Box>
+
+                {ingredients.length > 0 && (
+                  <Box>
+                    <Typography
+                      variant='subtitle1'
+                      sx={{ mb: 2, fontWeight: 600 }}
+                    >
+                      Your Ingredients:
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                      {ingredients.map((item, index) => (
+                        <Chip
+                          key={index}
+                          label={item}
+                          color='primary'
+                          variant='outlined'
+                          onDelete={() =>
+                            setIngredients(
+                              ingredients.filter((_, i) => i !== index)
+                            )
+                          }
+                        />
+                      ))}
+                    </Box>
+                  </Box>
+                )}
               </Paper>
             </AnimatedCard>
           </Box>
@@ -286,7 +288,7 @@ const Dashboard = () => {
           <Box sx={{ mt: 6, textAlign: 'center' }}>
             <CircularProgress size={80} sx={{ color: 'primary.main' }} />
             <Typography variant='h6' sx={{ mt: 3, color: 'text.secondary' }}>
-              Finding the perfect recommendations for your mood...
+              Finding the perfect recommendations for your mood (takes about a minute)...
             </Typography>
           </Box>
         </LoadingAnimation>
@@ -298,123 +300,142 @@ const Dashboard = () => {
             <Box sx={{ textAlign: 'center', mb: 6 }}>
               <Box sx={{ mb: 6 }}>
                 <AnimatedBox>
-                <Chip
-                  label={`Here are some ${recommendation.mood.toUpperCase()} recipes for you`}
-                  color='primary'
-                  size='large'
-                  sx={{
-                    fontSize: '1.2rem',
-                    py: 3,
-                    px: 3,
-                    background:
-                      'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
-                    color: 'white',
-                    fontWeight: 600,
-                  }}
-                />
+                  <Chip
+                    label={`Here are some ${recommendation.mood.toUpperCase()} recipes for you`}
+                    color='primary'
+                    size='large'
+                    sx={{
+                      fontSize: '1.2rem',
+                      py: 3,
+                      px: 3,
+                      background:
+                        'linear-gradient(135deg, #6366f1 0%, #a855f7 100%)',
+                      color: 'white',
+                      fontWeight: 600,
+                    }}
+                  />
                 </AnimatedBox>
               </Box>
             </Box>
 
-            <Box sx={{ mb: 6 }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
-                <FloatingIcon>
-                  <RestaurantIcon
-                    sx={{ mr: 2, color: 'primary.main', fontSize: 32 }}
-                  />
-                </FloatingIcon>
-                <Typography
-                  variant='h4'
-                  component='h2'
-                  sx={{ fontWeight: 600 }}
-                >
-                  Recipe Recommendations
+            {recommendation.recipes.length === 0 ? (
+              <Box sx={{ textAlign: 'center', my: 6 }}>
+                <Typography variant='h6' color='text.secondary' gutterBottom>
+                  No recipes found.
+                </Typography>
+                <Typography variant='body1' color='text.secondary'>
+                  Try again with fewer or different ingredients.
                 </Typography>
               </Box>
-              <Grid container spacing={3} justifyContent='center'>
-                {recommendation.recipes.map((recipe, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index} maxWidth={900} width='100%' >
-                    <AnimatedGridItem index={index}>
-                      <Card
-                        sx={{
-                          height: '100%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          cursor: 'pointer',
-                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                          '&:hover': {
-                            transform: 'translateY(-8px)',
-                            boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-                            '& .recipe-image': {
-                              transform: 'scale(1.05)',
+            ) : (
+              <Box sx={{ mb: 6 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 4 }}>
+                  <FloatingIcon>
+                    <RestaurantIcon
+                      sx={{ mr: 2, color: 'primary.main', fontSize: 32 }}
+                    />
+                  </FloatingIcon>
+                  <Typography
+                    variant='h4'
+                    component='h2'
+                    sx={{ fontWeight: 600 }}
+                  >
+                    Recipe Recommendations
+                  </Typography>
+                </Box>
+                <Grid container spacing={3} justifyContent='center'>
+                  {recommendation.recipes.map((recipe, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      key={index}
+                      maxWidth={900}
+                      width='100%'
+                    >
+                      <AnimatedGridItem index={index}>
+                        <Card
+                          sx={{
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                            '&:hover': {
+                              transform: 'translateY(-8px)',
+                              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+                              '& .recipe-image': {
+                                transform: 'scale(1.05)',
+                              },
                             },
-                          },
-                        }}
-                        onClick={() => handleRecipeClick(recipe)}
-                      >
-                        <Box sx={{ overflow: 'hidden', height: 200 }}>
-                          <CardMedia
-                            className='recipe-image'
-                            component='img'
-                            height='200'
-                            image={recipe.image}
-                            alt={recipe.title}
-                            sx={{
-                              transition:
-                                'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                              objectFit: 'cover',
-                            }}
-                          />
-                        </Box>
-                        <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                          <Typography
-                            variant='h6'
-                            gutterBottom
-                            sx={{ fontWeight: 600, mb: 2 }}
-                          >
-                            {recipe.title}
-                          </Typography>
-                          <Typography
-                            variant='body2'
-                            color='text.secondary'
-                            sx={{ mb: 3, lineHeight: 1.6 }}
-                          >
-                            {recipe.summary
-                              ?.replace(/<[^>]+>/g, '')
-                              .slice(0, 120)}
-                            ...
-                          </Typography>
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Chip
-                              label='View Recipe'
-                              size='small'
-                              color='primary'
-                              variant='outlined'
-                              sx={{ fontWeight: 500 }}
+                          }}
+                          onClick={() => handleRecipeClick(recipe)}
+                        >
+                          <Box sx={{ overflow: 'hidden', height: 200 }}>
+                            <CardMedia
+                              className='recipe-image'
+                              component='img'
+                              height='200'
+                              image={recipe.image}
+                              alt={recipe.title}
+                              sx={{
+                                transition:
+                                  'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                objectFit: 'cover',
+                              }}
                             />
-                            {recipe.readyInMinutes && (
-                              <Typography
-                                variant='caption'
-                                color='text.secondary'
-                                sx={{ fontWeight: 500 }}
-                              >
-                                ⏱️ {recipe.readyInMinutes} min
-                              </Typography>
-                            )}
                           </Box>
-                        </CardContent>
-                      </Card>
-                    </AnimatedGridItem>
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
+                          <CardContent sx={{ flexGrow: 1, p: 3 }}>
+                            <Typography
+                              variant='h6'
+                              gutterBottom
+                              sx={{ fontWeight: 600, mb: 2 }}
+                            >
+                              {recipe.title}
+                            </Typography>
+                            <Typography
+                              variant='body2'
+                              color='text.secondary'
+                              sx={{ mb: 3, lineHeight: 1.6 }}
+                            >
+                              {recipe.summary
+                                ?.replace(/<[^>]+>/g, '')
+                                .slice(0, 120)}
+                              ...
+                            </Typography>
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Chip
+                                label='View Recipe'
+                                size='small'
+                                color='primary'
+                                variant='outlined'
+                                sx={{ fontWeight: 500 }}
+                              />
+                              {recipe.readyInMinutes && (
+                                <Typography
+                                  variant='caption'
+                                  color='text.secondary'
+                                  sx={{ fontWeight: 500 }}
+                                >
+                                  ⏱️ {recipe.readyInMinutes} min
+                                </Typography>
+                              )}
+                            </Box>
+                          </CardContent>
+                        </Card>
+                      </AnimatedGridItem>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            )}
 
             <Divider sx={{ my: 6 }} />
 
@@ -435,7 +456,15 @@ const Dashboard = () => {
               </Box>
               <Grid container spacing={3} justifyContent='center'>
                 {recommendation.music.map((track, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={index} maxWidth={350} width='100%'>
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    key={index}
+                    maxWidth={350}
+                    width='100%'
+                  >
                     <AnimatedGridItem index={index}>
                       <Card
                         sx={{

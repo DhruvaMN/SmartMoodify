@@ -94,7 +94,7 @@ const About = () => {
                   : '0 2px 4px rgba(255,255,255,0.1)',
             }}
           >
-            About SmartMoodify
+            About MoodPlate
           </Typography>
           <Typography
             variant='h5'
@@ -106,7 +106,7 @@ const About = () => {
               fontWeight: 400,
             }}
           >
-            Moodplate is a full-stack application that curates personalized
+            MoodPlate is a full-stack application that curates personalized
             meals and music based on your emotions, local weather, and available
             ingredients—enhancing your daily experience through emotionally
             intelligent technology.
@@ -131,7 +131,7 @@ const About = () => {
               sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
             >
               We believe food and music have the power to elevate your mood.
-              SmartMoodify was created to combine emotion-aware AI and smart
+              MoodPlate was created to combine emotion-aware AI and smart
               APIs to help people decide what to eat and listen to, especially
               when they feel overwhelmed or indecisive.
             </Typography>
@@ -155,7 +155,7 @@ const About = () => {
               sx={{ fontSize: '1.1rem', lineHeight: 1.8 }}
             >
               Choosing what to eat or listen to can be frustrating when you're
-              not sure what matches your mood or energy. SmartMoodify takes away
+              not sure what matches your mood or energy. MoodPlate takes away
               the decision fatigue by making emotionally and contextually
               relevant suggestions—no endless scrolling or second-guessing.
             </Typography>
